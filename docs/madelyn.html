@@ -1,1 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.js Sketch</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
 
+    <h1>Click the link to view the p5.js sketch</h1>
+
+    <!-- Link to trigger the display of the p5.js sketch -->
+    <a href="#" onclick="displaySketch()">View Sketch</a>
+
+    <div id="sketchContainer"></div>
+
+    <script>
+      let img;
+      let detailX;
+
+      function preload() {
+        img = loadImage('IMG_0033.jpeg');
+      }
+
+      function setup() {
+        // Create a hidden canvas initially
+        createCanvas(400, 400, WEBGL).style('display', 'none');
+        detailX = createSlider(0, 24, 3);
+        noStroke();
+        detailX.position(10, height + 5);
+        detailX.style('width', '80px');
+        describe(
+          'a white sphere with low detail on the x-axis, including a slider to adjust detailX'
+        );
+      }
+
+      function draw() {
+        background(200, 105, 94, 0);
+        let locX = mouseX - width / 2;
+        let locY = mouseY - height / 2;
+        rotateY(millis() / 1000);
+        sphere(100, detailX.value(), 100);
+        shininess(100);
+        ambientLight(60, 60, 60);
+        pointLight(255, 255, 255, locX, locY, 50);
+        specularMaterial(250);
+        translate(-25, 0, 0);
+        shininess(1);
+        sphere(20);
+        translate(50, 0, 0);
+        shininess(20);
+        texture(img);
+      }
+
+      // Function to display the p5.js sketch
+      function displaySketch() {
+        // Make the canvas visible when the link is clicked
+        select('canvas').style('display', 'block');
+        // Create a new container div and append the canvas to it
+        let sketchContainer = createDiv();
+        sketchContainer.child(document.querySelector('canvas'));
+        sketchContainer.parent('sketchContainer');
+      }
+    </script>
+
+</body>
+</html>
